@@ -11,7 +11,7 @@ class State(TypedDict):
 
 graph_builder = StateGraph(State)
 
-llm = ChatGroq(temperature=0, model_name="deepseek-r1-distill-llama-70b")
+llm = ChatGroq(temperature=0, model_name="llama-3.3-70b-versatile")
 
 def chatbot(state: State):
     return {"messages": [llm.invoke(state["messages"])]}
