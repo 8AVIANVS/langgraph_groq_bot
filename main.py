@@ -23,10 +23,19 @@ graph_builder.add_edge("chatbot", END)
 
 graph = graph_builder.compile()
 
+messages = []
+
 def stream_graph_updates(user_input: str):
-    for event in graph.stream({"messages": [{"role": "user", "content": user_input}]}):
+    # Add the new message to our history
+    messages.append({"role": "user", "content": user_input})
+    
+    # Stream the graph with all messages
+    for event in graph.stream({"messages": messages}):
         for value in event.values():
             print("Assistant:", value["messages"][-1].content)
+            # Update our message history with all messages including the response
+            messages.clear()
+            messages.extend(value["messages"])
 
 while True:
     try:
