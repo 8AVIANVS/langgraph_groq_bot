@@ -1,6 +1,6 @@
 from typing import Annotated
-
 from typing_extensions import TypedDict
+from langchain_core.messages import HumanMessage, AIMessage
 
 from langchain_groq import ChatGroq
 from langgraph.graph import StateGraph, START, END
@@ -27,15 +27,17 @@ messages = []
 
 def stream_graph_updates(user_input: str):
     # Add the new message to our history
-    messages.append({"role": "user", "content": user_input})
+    messages.append(HumanMessage(content=user_input))
+    # print("\nBefore graph.stream, messages:", [{"role": m.type, "content": m.content} for m in messages])
     
     # Stream the graph with all messages
     for event in graph.stream({"messages": messages}):
         for value in event.values():
             print("Assistant:", value["messages"][-1].content)
-            # Update our message history with all messages including the response
-            messages.clear()
-            messages.extend(value["messages"])
+            # print("Graph state messages:", [{"role": m.type, "content": m.content} for m in value["messages"]])
+            # Add only the new assistant message to our history
+            messages.append(value["messages"][-1])
+            # print("After update, messages:", [{"role": m.type, "content": m.content} for m in messages])
 
 while True:
     try:
