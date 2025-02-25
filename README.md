@@ -1,11 +1,6 @@
 # LangGraph Chatbot with Groq
 
-This project implements a simple chatbot following the [official LangGraph guide](https://python.langchain.com/docs/langgraph), but uses Groq's LLM instead of the default model.
-
-The implementation demonstrates:
-- Basic LangGraph state management
-- Integration with Groq's language model
-- Simple chatbot conversation flow
+This project builds on the [official LangGraph guide](https://python.langchain.com/docs/langgraph) to make a chatbot. It uses Groq's service instead of default models directly. In addition, the chatbot retains session memory.
 
 ## Requirements
 - Python
